@@ -3,9 +3,11 @@ package com.sagar.transactionservice.service;
 import com.sagar.transactionservice.entity.Transaction;
 import com.sagar.transactionservice.entity.TransactionStatus;
 import com.sagar.transactionservice.repository.TransactionRepository;
+import com.sagar.transactionservice.service.impl.TransactionServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class TransactionEventConsumer {
 
     private final TransactionRepository transactionRepository;
+    private final TransactionServiceImpl transactionService;
     private final RedisTemplate<String, String> redisTemplate;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
@@ -32,6 +35,7 @@ public class TransactionEventConsumer {
      *
      * @param payload
      */
+    @KafkaListener(topics = "verification.required")
     public void consumeVerificationRequired(
             @Payload Map<String, Object> payload) {
 
@@ -65,7 +69,6 @@ public class TransactionEventConsumer {
             log.info("OTP generated for transaction {}: expires in {} minutes", transactionId, OTP_EXPIRY_MINUTES);
 
             //Notify user
-
             Map<String, Object> otpEvent = Map.of(
                     "transactionId", transactionId,
                     "accountNumber", accountNumber,
@@ -79,6 +82,22 @@ public class TransactionEventConsumer {
             log.error("Error processing verification required event: {}", e.getMessage(), e);
         }
     }
+
+    @KafkaListener(topics = "fraud.check.clean")
+    public void consumeFraudCheckCleanResult(
+            @Payload Map<String,Object> payload
+    ){
+        try{
+            String transactionId = (String) payload.get("transactionId");
+            transactionService.processCleanResult(transactionId);
+        }
+        catch (Exception e){
+            log.error("Error processing fraud check clean result: {}", e.getMessage(), e);
+        }
+
+    }
+
+
 }
 
 
