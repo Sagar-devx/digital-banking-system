@@ -6,12 +6,14 @@ import com.razorpay.RazorpayException;
 import com.sagar.paymentservice.dto.CreatePaymentRequest;
 import com.sagar.paymentservice.dto.PaymentOrderResponse;
 import com.sagar.paymentservice.entity.Payment;
+import com.sagar.paymentservice.entity.PaymentStatus;
 import com.sagar.paymentservice.repository.PaymentRepository;
 import com.sagar.paymentservice.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,6 +32,7 @@ public class PaymentServiceImpl implements PaymentService {
     private String keySecret;
 
     private final PaymentRepository paymentRepository;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     private static final String PAYMENT_COMPLETED_TOPIC = "payment.completed";
     private static final String PAYMENT_FAILED_TOPIC = "payment.failed";
@@ -95,13 +98,76 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
-    private void handlePaymentSuccess(Map<String, Object> payload) {
+    private void handlePaymentFailure(Map<String, Object> payload) {
 
         try{
-            Map<String, Object> paymentEntity = (Map<String, Object>) payload.get("payload");
+            Map<String, Object> paymentData = extractPaymentData(payload);
+
+            String orderId = (String) paymentData.get("order_id");
+
+            Payment payment = paymentRepository.findByRazorpayOrderId(orderId)
+                    .orElseThrow(() -> new RuntimeException("Payment record not found for orderId: " + orderId));
+
+            payment.setStatus(PaymentStatus.FAILED);
+            payment.setFailureReason("Payment failed via Razorpay");
+            paymentRepository.save(payment);
+
+            //Publish payment failed event to Kafka
+            Map<String, Object> eventPayload = Map.of(
+                    "paymentId", payment.getId(),
+                    "accountNumber", payment.getAccountNumber(),
+                    "amount", payment.getAmount(),
+                    "reason", "Payment failed via Razorpay"
+            );
+
+            kafkaTemplate.send(PAYMENT_FAILED_TOPIC,payment.getId(), eventPayload);
+            log.info("Payment failed: {}",payment.getId());
+
+        } catch (Exception e) {
+
+            log.error("Error handling payment failure webhook: {}", e.getMessage(), e);
         }
     }
 
+    private void handlePaymentSuccess(Map<String, Object> payload) {
+
+        try{
+            Map<String, Object> paymentData = extractPaymentData(payload);
+            String orderId = (String) paymentData.get("order_id");
+            String paymentId = (String) paymentData.get("id");
+
+            Payment payment = paymentRepository.findByRazorpayOrderId(orderId)
+                    .orElseThrow(() -> new RuntimeException("Payment record not found for orderId: " + orderId));
+
+            payment.setRazorpayPaymentId(paymentId);
+            payment.setStatus(PaymentStatus.COMPLETED);
+            paymentRepository.save(payment);
+
+            //Publish payment completed event to Kafka
+            Map<String, Object> eventPayload = Map.of(
+                    "paymentId", payment.getId(),
+                    "accountNumber", payment.getAccountNumber(),
+                    "amount", payment.getAmount(),
+                    "razorpayPaymentId", payment.getRazorpayPaymentId()
+            );
+
+            kafkaTemplate.send(PAYMENT_COMPLETED_TOPIC,payment.getId(), eventPayload);
+            log.info("Payment completed: {}",payment.getId());
+
+        } catch (Exception e) {
+
+            log.error("Error handling payment success webhook: {}", e.getMessage(), e);
+        }
+    }
+
+    private Map<String, Object> extractPaymentData(Map<String, Object> payload) {
+
+        Map<String, Object> paymentEntity = (Map<String, Object>) payload.get("payload");
+        Map<String, Object> paymentWrapper = (Map<String, Object>) paymentEntity.get("payment");
+
+        return (Map<String, Object>) paymentWrapper.get("entity");
+
+    }
 }
 
 
