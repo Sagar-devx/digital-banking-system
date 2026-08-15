@@ -5,7 +5,7 @@ spring:
     name: payment-service
 
   datasource:
-    url: jdbc:mysql://mysql:3306/payment_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/payment_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,13 +26,15 @@ spring:
 
 #Razorpay configuration
 razorpay:
-  key-id: your_razorpay_key_id
-  key-secret: your_razorpay_key_secret
-  webhook-secret:
+  key-id: ${RAZORPAY_KEY_ID:your_razorpay_key_id}
+  key-secret: ${RAZORPAY_KEY_SECRET:your_razorpay_key_secret}
+  webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:your_razorpay_webhook_secret}
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+
+
 

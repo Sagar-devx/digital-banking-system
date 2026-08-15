@@ -108,7 +108,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
 
-        String otpKey = "verification:otp:" + transactionId;
+        String otpKey = "transaction:otp:" + transactionId;
         String storedOtp = redisTemplate.opsForValue().get(otpKey);
 
         if (storedOtp == null) {
@@ -119,7 +119,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         if (!storedOtp.equals(otp)) {
-            // Bloack transaction and refund
+            // Block transaction and refund
             log.warn("Wrong OTP - blocking account and refunding: {}", transactionId);
             redisTemplate.delete(otpKey);
             blockAccountandCompensate(transaction, "Wrong OTP entered - transaction cancelled, " +
@@ -130,7 +130,7 @@ public class TransactionServiceImpl implements TransactionService {
         //OTP correct - complete transaction
         log.info("OTP verified - completing transaction: {}", transactionId);
         redisTemplate.delete(otpKey);
-        compensateTransaction(transaction, "OTP verified - completing transaction");
+        completeTransaction(transaction);
         return mapToResponse(transaction);
     }
 
@@ -162,10 +162,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setStatus(TransactionStatus.FLAGGED);
         transactionRepository.save(transaction);
 
-        //PUBLISH refund event - Notifiaction service will alert user
+        //PUBLISH refund event - Notification service will alert user
         Map<String, Object> refundEvent = Map.of(
                 "transactionId", transaction.getId(),
-                "SenderAccountNumber", transaction.getSenderAccountNumber(),
+                "senderAccountNumber", transaction.getSenderAccountNumber(),
                 "amount", transaction.getAmount(),
                 "reason", reason
         );
@@ -215,6 +215,7 @@ public class TransactionServiceImpl implements TransactionService {
         if(transaction.getStatus() != TransactionStatus.PROCESSING)
         {
             log.warn("Transaction {} is not in PROCESSING state, skipping", transactionId);
+            return;
         }
         completeTransaction(transaction);
     }

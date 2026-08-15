@@ -25,10 +25,10 @@ import java.util.UUID;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    @Value("${razorpay.key-Id}")
+    @Value("${razorpay.key-id}")
     private String keyId;
 
-    @Value("${razorpay.key-Secret}")
+    @Value("${razorpay.key-secret}")
     private String keySecret;
 
     private final PaymentRepository paymentRepository;
@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         RazorpayClient razorpayClient = new RazorpayClient(keyId, keySecret);
 
-        //Converted Amount
+        //Converted Amount in paise for Razorpay API
         int convertedAmount = paymentRequest.getAmount()
                 .multiply(BigDecimal.valueOf(100))
                 .intValue();
@@ -60,13 +60,12 @@ public class PaymentServiceImpl implements PaymentService {
 
         log.info("Payment order created: {}", razorpayOrder.get("id").toString());
 
-        //Save payment record
+        //Save payment record with original currency amount
         Payment payment = new Payment();
         payment.setRazorpayOrderId(razorpayOrder.get("id").toString());
         payment.setAccountNumber(paymentRequest.getAccountNumber());
-        payment.setAmount(BigDecimal.valueOf(convertedAmount));
+        payment.setAmount(paymentRequest.getAmount());
         payment.setCurrency("INR");
-        payment.setDescription(paymentRequest.getDescription());
         payment.setDescription(paymentRequest.getDescription());
 
         Payment savedPayment = paymentRepository.save(payment);

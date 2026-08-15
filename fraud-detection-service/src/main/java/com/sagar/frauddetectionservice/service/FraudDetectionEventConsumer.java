@@ -31,7 +31,8 @@ public class FraudDetectionEventConsumer {
         }
         catch(Exception e){
 
-        }
+            log.error("Error is consuming transaction.initiated event");
 
+        }
     }
 }

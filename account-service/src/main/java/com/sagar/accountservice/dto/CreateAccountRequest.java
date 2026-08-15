@@ -8,12 +8,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
 @Data
-@NotNull
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateAccountRequest {
 
     @NotBlank(message = "Account holder name is required")

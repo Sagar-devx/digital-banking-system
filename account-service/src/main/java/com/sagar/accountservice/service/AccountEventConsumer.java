@@ -27,14 +27,15 @@ public class AccountEventConsumer {
 
         try{
             String receiverAccount = (String) payload.get("receiverAccountNumber");
-            BigDecimal amount = new BigDecimal(payload.get("account").toString());
-
-            log.info("creating account : {} amount : {}", receiverAccount, amount);
-
-            accountService.creditBalance(receiverAccount, amount);
+            Object amountObj = payload.get("amount");
+            if (receiverAccount != null && amountObj != null) {
+                BigDecimal amount = new BigDecimal(amountObj.toString());
+                log.info("Crediting receiver account: {} amount: {}", receiverAccount, amount);
+                accountService.creditBalance(receiverAccount, amount);
+            }
         }
         catch(Exception e){
-            log.error("error while crediting account : {} ", e.getMessage());
+            log.error("error while crediting account: {}", e.getMessage(), e);
         }
     }
 
@@ -53,7 +54,7 @@ public class AccountEventConsumer {
             accountService.blockAccount(accountNumber);
         }
         catch(Exception e){
-            log.error("error while crediting account : {} ", e.getMessage());
+            log.error("error while blocking account: {}", e.getMessage(), e);
         }
     }
 
