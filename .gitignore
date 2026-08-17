@@ -4,3 +4,17 @@
 **/target/
 **/build/
 **/node_modules/
+.vscode/
+
+# Environment files and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+
+# Logs
+*.log
