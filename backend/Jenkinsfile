@@ -15,7 +15,7 @@ pipeline {
                     def services = ['account-service', 'api-gateway', 'fraud-detection-service',
                                     'notification-service', 'payment-service', 'transaction-service']
                     for (svc in services) {
-                        dir(svc) {
+                        dir("backend/${svc}") {
                             sh "docker run --rm -v \$(pwd):/app -w /app maven:3.9-eclipse-temurin-17 mvn test -B"
                         }
                     }
@@ -35,7 +35,7 @@ pipeline {
                         def services = ['account-service', 'api-gateway', 'fraud-detection-service',
                                         'notification-service', 'payment-service', 'transaction-service']
                         for (svc in services) {
-                            dir(svc) {
+                            dir("backend/${svc}") {
                                 sh "docker build -t ${DOCKER_HUB}/${svc}:${TAG} -t ${DOCKER_HUB}/${svc}:latest ."
                                 sh "docker push ${DOCKER_HUB}/${svc}:${TAG}"
                                 sh "docker push ${DOCKER_HUB}/${svc}:latest"
@@ -54,7 +54,7 @@ pipeline {
                     string(credentialsId: 'AWS_EC2_HOST', variable: 'HOST')
                 ]) {
                     // Send compose file to server
-                    sh "scp -i \$KEY -o StrictHostKeyChecking=no docker-compose-prod.yml \${USER}@\${HOST}:~/digital-banking-system/docker-compose.yml"
+                    sh "scp -i \$KEY -o StrictHostKeyChecking=no backend/docker-compose-prod.yml \${USER}@\${HOST}:~/digital-banking-system/docker-compose.yml"
 
                     // SSH → Stop old containers → Pull new images → Start
                     sh """
