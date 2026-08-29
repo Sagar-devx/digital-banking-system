@@ -74,14 +74,14 @@ spring:
                 - RewritePath=/health/payment, /actuator/health
 
             - id: fraud-health
-              uri: http://localhost:8084
+              uri: http://fraud-detection-service:8084
               predicates:
                 - Path=/health/fraud
               filters:
                 - RewritePath=/health/fraud, /actuator/health
 
             - id: notification-health
-              uri: http://localhost:8085
+              uri: http://notification-service:8085
               predicates:
                 - Path=/health/notification
               filters:
