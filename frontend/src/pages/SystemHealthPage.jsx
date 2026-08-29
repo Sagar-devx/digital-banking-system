@@ -5,7 +5,7 @@ import ServiceHealthGrid from '../components/system-health/ServiceHealthGrid';
 import ServiceTopologyDiagram from '../components/system-health/ServiceTopologyDiagram';
 import SystemMetricsSidebar from '../components/system-health/SystemMetricsSidebar';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 const SERVICES = [
   { id: 'gateway', name: 'API Gateway', url: `${API_BASE}/actuator/health`, port: '8080' },
   { id: 'account', name: 'Account Service', url: `${API_BASE}/health/account`, port: '8081' },
