@@ -3,6 +3,18 @@
     {
       "source": "/api/(.*)",
       "destination": "http://13.201.126.225:8080/api/$1"
+    },
+    {
+      "source": "/health/(.*)",
+      "destination": "http://13.201.126.225:8080/health/$1"
+    },
+    {
+      "source": "/actuator/(.*)",
+      "destination": "http://13.201.126.225:8080/actuator/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

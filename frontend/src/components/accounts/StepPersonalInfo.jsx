@@ -16,7 +16,7 @@ export default function StepPersonalInfo({ formData, handleChange }) {
             id="accountHolderName"
             value={formData.accountHolderName}
             onChange={handleChange}
-            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-[--color-primary-500] focus:border-[--color-primary-500] sm:text-sm transition-colors"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500 sm:text-sm transition-colors"
             placeholder="John Doe"
           />
         </div>
@@ -34,7 +34,7 @@ export default function StepPersonalInfo({ formData, handleChange }) {
             id="email"
             value={formData.email}
             onChange={handleChange}
-            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-[--color-primary-500] focus:border-[--color-primary-500] sm:text-sm transition-colors"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500 sm:text-sm transition-colors"
             placeholder="john@example.com"
           />
         </div>
@@ -52,7 +52,7 @@ export default function StepPersonalInfo({ formData, handleChange }) {
             id="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-[--color-primary-500] focus:border-[--color-primary-500] sm:text-sm transition-colors"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500 sm:text-sm transition-colors"
             placeholder="+1 (555) 000-0000"
           />
         </div>
@@ -60,7 +60,7 @@ export default function StepPersonalInfo({ formData, handleChange }) {
 
       <button
         type="submit"
-        className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-[--color-primary-600] hover:bg-[--color-primary-700] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--color-primary-500] transition-colors"
+        className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
       >
         Continue
         <ChevronRight className="ml-2 w-4 h-4" />

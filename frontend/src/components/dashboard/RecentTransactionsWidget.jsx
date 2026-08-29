@@ -9,7 +9,7 @@ export default function RecentTransactionsWidget({ transactions, currentAccount,
         <h3 className="text-lg font-semibold text-gray-900">Recent Transactions</h3>
         <button 
           onClick={() => navigate('/transactions')}
-          className="text-sm font-medium text-[--color-primary-600] hover:text-[--color-primary-700] transition-colors"
+          className="text-sm font-medium text-green-600 hover:text-green-700 transition-colors"
         >
           View all
         </button>

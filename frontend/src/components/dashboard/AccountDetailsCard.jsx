@@ -8,7 +8,7 @@ export default function AccountDetailsCard({ currentAccount }) {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-gray-900">Account Details</h3>
-          <ShieldCheck className="w-5 h-5 text-[--color-primary-500]" />
+          <ShieldCheck className="w-5 h-5 text-green-500" />
         </div>
         
         <div className="space-y-4">

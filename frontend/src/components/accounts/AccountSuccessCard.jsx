@@ -18,7 +18,7 @@ export default function AccountSuccessCard({
       </p>
       
       <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[--color-primary-400] to-[--color-primary-600]"></div>
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600"></div>
         <p className="text-sm font-medium text-gray-500 mb-2">Your Account Number</p>
         <div className="flex items-center justify-center gap-3">
           <p className="text-3xl font-mono font-bold tracking-widest text-gray-900">

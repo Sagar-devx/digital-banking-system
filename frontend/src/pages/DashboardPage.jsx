@@ -56,7 +56,7 @@ export default function DashboardPage() {
         <p className="text-gray-500 mb-8">Create an account to start managing your money.</p>
         <button
           onClick={() => navigate('/accounts/create')}
-          className="bg-[--color-primary-600] text-white px-6 py-3 rounded-xl font-medium hover:bg-[--color-primary-700] transition-colors"
+          className="bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700 transition-colors"
         >
           Create Account
         </button>

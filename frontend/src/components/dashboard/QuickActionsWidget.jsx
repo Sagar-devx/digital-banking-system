@@ -5,7 +5,7 @@ import { cn } from '../../utils/cn';
 export default function QuickActionsWidget({ navigate }) {
   const actions = [
     { icon: Send, label: 'Send Money', onClick: () => navigate('/transfer'), color: 'bg-blue-50 text-blue-600' },
-    { icon: Plus, label: 'Add Funds', onClick: () => navigate('/payments'), color: 'bg-[--color-primary-50] text-[--color-primary-600]' },
+    { icon: Plus, label: 'Add Funds', onClick: () => navigate('/payments'), color: 'bg-green-50 text-green-600' },
     { icon: History, label: 'History', onClick: () => navigate('/transactions'), color: 'bg-purple-50 text-purple-600' },
     { icon: CreditCard, label: 'Payments', onClick: () => navigate('/payments'), color: 'bg-orange-50 text-orange-600' }
   ];
@@ -18,7 +18,7 @@ export default function QuickActionsWidget({ navigate }) {
           <button
             key={idx}
             onClick={action.onClick}
-            className="group flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:border-[--color-primary-500] hover:shadow-md transition-all duration-200"
+            className="group flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:border-green-500 hover:shadow-md transition-all duration-200"
           >
             <div className={cn("w-12 h-12 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform", action.color)}>
               <action.icon className="w-6 h-6" />

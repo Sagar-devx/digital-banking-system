@@ -20,7 +20,7 @@ export default function StepDepositInfo({
             id="accountType"
             value={formData.accountType}
             onChange={handleChange}
-            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-[--color-primary-500] focus:border-[--color-primary-500] sm:text-sm transition-colors bg-white"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500 sm:text-sm transition-colors bg-white"
           >
             <option value="SAVINGS">Savings Account</option>
             <option value="CURRENT">Current Account</option>
@@ -43,7 +43,7 @@ export default function StepDepositInfo({
             min="0"
             value={formData.initialDeposit}
             onChange={handleChange}
-            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-[--color-primary-500] focus:border-[--color-primary-500] sm:text-sm transition-colors"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-green-500 focus:border-green-500 sm:text-sm transition-colors"
             placeholder="100.00"
           />
         </div>
@@ -53,14 +53,14 @@ export default function StepDepositInfo({
         <button
           type="button"
           onClick={onBack}
-          className="w-1/3 flex justify-center items-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--color-primary-500] transition-colors"
+          className="w-1/3 flex justify-center items-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
         >
           Back
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="w-2/3 flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-[--color-primary-600] hover:bg-[--color-primary-700] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[--color-primary-500] disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
+          className="w-2/3 flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
         >
           {loading ? (
             <><Loader2 className="w-5 h-5 animate-spin mr-2" /> Creating...</>
