@@ -521,7 +521,7 @@ digital-banking-system/
 
 **Sagar Sharma**
 
-Java Backend Developer | Software Developer
+Full Stack Java Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-Sagar--devx-181717?logo=github)](https://github.com/Sagar-devx)
 
