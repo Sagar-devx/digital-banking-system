@@ -1,6 +1,6 @@
 # 🏦 Digital Banking System
 
-A full-stack, microservices-based digital banking platform built with **Java 17 / Spring Boot 4.1** and **React 19**. Implements real-world distributed systems patterns including the **SAGA pattern** for money transfers, **event-driven architecture** with Apache Kafka, **real-time fraud detection** with Redis, and **Razorpay payment gateway** integration — deployed on **AWS EC2** with a **Jenkins CI/CD** pipeline.
+A full-stack, microservices-based digital banking platform built with **Java 17, Spring Boot 4.1 and React 19**. Implements real-world distributed systems patterns including the **SAGA pattern** for money transfers, **event-driven architecture** with Apache Kafka, **real-time fraud detection** with Redis, and **Razorpay payment gateway** integration — deployed on **AWS EC2** with a **Jenkins CI/CD** pipeline.
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.0-6DB33F?logo=springboot&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
