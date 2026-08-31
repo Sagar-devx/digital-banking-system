@@ -14,6 +14,7 @@ import com.sagar.accountservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
@@ -61,16 +62,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void blockAccount(String accountNumber) {
         log.info("Blocking account : {}", accountNumber);
-        Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with account number: " + accountNumber));
-        account.setStatus(AccountStatus.BLOCKED);
-        accountRepository.save(account);
-        log.info("Account blocked : {}", account.getAccountNumber());
+        if (!accountRepository.existsByAccountNumber(accountNumber)) {
+            throw new AccountNotFoundException("Account not found with account number: " + accountNumber);
+        }
+        accountRepository.updateStatus(accountNumber, AccountStatus.BLOCKED);
+        log.info("Account blocked : {}", accountNumber);
     }
 
     @Override
+    @Transactional
     public void deductBalance(String accountNumber, BigDecimal amount) {
         log.info("Deducting account : {}", accountNumber);
 
@@ -85,22 +88,22 @@ public class AccountServiceImpl implements AccountService {
             throw new InsufficientFundsException("Insufficient funds in account: " + accountNumber + ". Current balance: " + account.getBalance() + ", requested: " + amount);
         }
 
-        account.setBalance(account.getBalance().subtract(amount));
-        accountRepository.save(account);
+        accountRepository.subtractBalance(accountNumber, amount);
 
-        log.info("Account deducted : {}", account.getAccountNumber());
+        log.info("Account deducted : {}", accountNumber);
     }
 
     @Override
+    @Transactional
     public void creditBalance(String accountNumber, BigDecimal amount) {
         log.info("Credit balance : {}", accountNumber);
+        
+        if (!accountRepository.existsByAccountNumber(accountNumber)) {
+            throw new AccountNotFoundException("Account not found with account number: " + accountNumber);
+        }
 
-        Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found with account number: " + accountNumber));
-
-        account.setBalance(account.getBalance().add(amount));
-        accountRepository.save(account);
-        log.info("Account Credited, New Balance : {}", account.getBalance());
+        accountRepository.addBalance(accountNumber, amount);
+        log.info("Account Credited : {}", accountNumber);
     }
 
     private String generateAccountNumber() {
