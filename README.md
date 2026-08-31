@@ -24,7 +24,7 @@ A full-stack, microservices-based digital banking platform built with **Java 17 
 | **Backend** | Java 17, Spring Boot 4.1, Spring Cloud 2025.1.2 |
 | **Frontend** | React 19, Vite 8, Tailwind CSS 4 |
 | **Distributed Transactions** | SAGA pattern with compensating transactions |
-| **Messaging** | Apache Kafka — 7 event topics across services |
+| **Messaging** | Apache Kafka — 9 event topics across services |
 | **Caching & OTP** | Redis — rate limiting, OTP storage, fraud velocity tracking |
 | **Database** | MySQL 8.0 — database-per-service pattern |
 | **Payments** | Razorpay integration with webhook verification |
@@ -506,7 +506,7 @@ digital-banking-system/
 
 - **SAGA Pattern** — Transaction Service orchestrates distributed transfers with compensating transactions (refunds) on failure, ensuring data consistency across services without distributed locks
 - **Event-Driven Architecture** — 9 Kafka topics decouple services; fraud detection, notifications, and account blocking happen asynchronously
-- **Real-Time Fraud Detection** — Three-rule engine (velocity, amount anomaly, balance threshold) using Redis for sub-millisecond lookups
+- **Real-Time Fraud Detection** — Three-rule engine (velocity, amount anomaly, balance threshold) using Redis for fast fraud checks
 - **Redis Multi-Purpose** — Single Redis instance serves rate limiting (API Gateway), OTP storage with TTL (Transaction Service), and fraud velocity/average tracking (Fraud Detection)
 - **API Gateway** — Spring Cloud Gateway with IP-based rate limiting (Redis-backed `RequestRateLimiter`), centralized CORS, and health check aggregation
 - **Database-Per-Service** — Each service owns its schema; inter-service data access happens exclusively through APIs
