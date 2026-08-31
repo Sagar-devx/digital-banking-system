@@ -46,7 +46,7 @@ export default function TransactionMobileList({
                   <div>
                     <p className="font-medium text-gray-900 text-sm">{txn.description}</p>
                     <p className="text-xs text-gray-500 mt-0.5">
-                      {new Date(txn.createdAt).toLocaleDateString()} • {new Date(txn.createdAt).toLocaleTimeString()}
+                      {new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleDateString()} • {new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleTimeString()}
                     </p>
                   </div>
                 </div>

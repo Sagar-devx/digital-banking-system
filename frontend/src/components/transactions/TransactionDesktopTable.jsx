@@ -75,8 +75,8 @@ export default function TransactionDesktopTable({
                     {txn.id.split('-')[0]}...
                   </td>
                   <td className="p-4 text-sm text-gray-500">
-                    {new Date(txn.createdAt).toLocaleDateString()}<br/>
-                    <span className="text-xs text-gray-400">{new Date(txn.createdAt).toLocaleTimeString()}</span>
+                    {new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleDateString()}<br/>
+                    <span className="text-xs text-gray-400">{new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleTimeString()}</span>
                   </td>
                   <td className="p-4">
                     <span className={cn(

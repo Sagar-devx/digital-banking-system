@@ -28,9 +28,9 @@ export default function TransactionInfoCard({ txn }) {
         <div>
           <p className="text-sm font-medium text-gray-500 mb-1.5">Date & Time</p>
           <p className="font-medium text-gray-900">
-            {new Date(txn.createdAt).toLocaleDateString('en-US', { 
+            {new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleDateString('en-US', { 
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-            })} at {new Date(txn.createdAt).toLocaleTimeString()}
+            })} at {new Date(txn.createdAt + (txn.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleTimeString()}
           </p>
         </div>
 

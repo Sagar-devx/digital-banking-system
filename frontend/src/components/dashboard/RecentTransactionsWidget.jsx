@@ -44,7 +44,7 @@ export default function RecentTransactionsWidget({ transactions, currentAccount,
                         {isCredit ? 'Received Money' : 'Sent Money'}
                       </p>
                       <p className="text-sm text-gray-500">
-                        {new Date(tx.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                        {new Date(tx.createdAt + (tx.createdAt.endsWith('Z') ? '' : 'Z')).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
                   </div>
