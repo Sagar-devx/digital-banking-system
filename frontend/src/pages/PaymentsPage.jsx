@@ -51,7 +51,7 @@ export default function PaymentsPage() {
             
             setStep('success');
             setTimeout(() => {
-              navigate('/transactions', { state: { success: true, paymentId: response.razorpay_payment_id } });
+              navigate('/dashboard', { state: { success: true, paymentId: response.razorpay_payment_id } });
             }, 2500);
           } catch (error) {
             setError(extractErrorMessage(error, 'Payment succeeded, but balance could not be updated immediately.'));
@@ -132,7 +132,7 @@ export default function PaymentsPage() {
             ₹{parseFloat(amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })} has been added to your account.
           </p>
           <p className="text-sm text-gray-400 animate-pulse mt-8">
-            Redirecting to transactions...
+            Redirecting to dashboard...
           </p>
         </div>
       )}
